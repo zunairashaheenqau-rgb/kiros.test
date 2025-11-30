@@ -1,166 +1,108 @@
 "use client";
 
-import {
-  Authenticated,
-  Unauthenticated,
-  useMutation,
-  useQuery,
-} from "convex/react";
-import { api } from "../convex/_generated/api";
-import Link from "next/link";
-import { SignUpButton } from "@clerk/nextjs";
-import { SignInButton } from "@clerk/nextjs";
-import { UserButton } from "@clerk/nextjs";
+import { useState } from "react";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import StoryPromptForm from "@/components/StoryPromptForm";
+import StoryDisplay from "@/components/StoryDisplay";
+import LoadingAnimation from "@/components/LoadingAnimation";
 
 export default function Home() {
-  return (
-    <>
-      <header className="sticky top-0 z-10 bg-background p-4 border-b-2 border-slate-200 dark:border-slate-800 flex flex-row justify-between items-center">
-        Convex + Next.js + Clerk
-        <UserButton />
-      </header>
-      <main className="p-8 flex flex-col gap-8">
-        <h1 className="text-4xl font-bold text-center">
-          Convex + Next.js + Clerk
-        </h1>
-        <Authenticated>
-          <Content />
-        </Authenticated>
-        <Unauthenticated>
-          <SignInForm />
-        </Unauthenticated>
-      </main>
-    </>
-  );
-}
+  // Application state
+  const [currentStory, setCurrentStory] = useState<string | null>(null);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-function SignInForm() {
-  return (
-    <div className="flex flex-col gap-8 w-96 mx-auto">
-      <p>Log in to see the numbers</p>
-      <SignInButton mode="modal">
-        <button className="bg-foreground text-background px-4 py-2 rounded-md">
-          Sign in
-        </button>
-      </SignInButton>
-      <SignUpButton mode="modal">
-        <button className="bg-foreground text-background px-4 py-2 rounded-md">
-          Sign up
-        </button>
-      </SignUpButton>
-    </div>
-  );
-}
+  // Set up Convex mutation hook for story generation
+  const generateStory = useMutation(api.storyGeneration.generateGhostStory);
 
-function Content() {
-  const { viewer, numbers } =
-    useQuery(api.myFunctions.listNumbers, {
-      count: 10,
-    }) ?? {};
-  const addNumber = useMutation(api.myFunctions.addNumber);
+  // Handle form submission
+  const handleSubmit = async (prompt: string) => {
+    // Clear previous state
+    setError(null);
+    setCurrentStory(null);
+    setIsGenerating(true);
 
-  if (viewer === undefined || numbers === undefined) {
-    return (
-      <div className="mx-auto">
-        <p>loading... (consider a loading skeleton)</p>
-      </div>
-    );
-  }
+    try {
+      // Call Convex action to generate story
+      const result = await generateStory({ prompt });
+
+      // Handle success response
+      if ("story" in result) {
+        setCurrentStory(result.story);
+      } 
+      // Handle error response
+      else if ("error" in result) {
+        setError(result.error);
+      }
+    } catch (err: any) {
+      // Handle unexpected errors
+      console.error("Error generating story:", err);
+      setError("An unexpected error occurred. Please try again.");
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  // Handle generating a new story
+  const handleGenerateNew = () => {
+    setCurrentStory(null);
+    setError(null);
+  };
 
   return (
-    <div className="flex flex-col gap-8 max-w-lg mx-auto">
-      <p>Welcome {viewer ?? "Anonymous"}!</p>
-      <p>
-        Click the button below and open this page in another window - this data
-        is persisted in the Convex cloud database!
-      </p>
-      <p>
-        <button
-          className="bg-foreground text-background text-sm px-4 py-2 rounded-md"
-          onClick={() => {
-            void addNumber({ value: Math.floor(Math.random() * 10) });
-          }}
-        >
-          Add a random number
-        </button>
-      </p>
-      <p>
-        Numbers:{" "}
-        {numbers?.length === 0
-          ? "Click the button!"
-          : (numbers?.join(", ") ?? "...")}
-      </p>
-      <p>
-        Edit{" "}
-        <code className="text-sm font-bold font-mono bg-slate-200 dark:bg-slate-800 px-1 py-0.5 rounded-md">
-          convex/myFunctions.ts
-        </code>{" "}
-        to change your backend
-      </p>
-      <p>
-        Edit{" "}
-        <code className="text-sm font-bold font-mono bg-slate-200 dark:bg-slate-800 px-1 py-0.5 rounded-md">
-          app/page.tsx
-        </code>{" "}
-        to change your frontend
-      </p>
-      <p>
-        See the{" "}
-        <Link href="/server" className="underline hover:no-underline">
-          /server route
-        </Link>{" "}
-        for an example of loading data in a server component
-      </p>
-      <div className="flex flex-col">
-        <p className="text-lg font-bold">Useful resources:</p>
-        <div className="flex gap-2">
-          <div className="flex flex-col gap-2 w-1/2">
-            <ResourceCard
-              title="Convex docs"
-              description="Read comprehensive documentation for all Convex features."
-              href="https://docs.convex.dev/home"
-            />
-            <ResourceCard
-              title="Stack articles"
-              description="Learn about best practices, use cases, and more from a growing
-            collection of articles, videos, and walkthroughs."
-              href="https://www.typescriptlang.org/docs/handbook/2/basic-types.html"
-            />
-          </div>
-          <div className="flex flex-col gap-2 w-1/2">
-            <ResourceCard
-              title="Templates"
-              description="Browse our collection of templates to get started quickly."
-              href="https://www.convex.dev/templates"
-            />
-            <ResourceCard
-              title="Discord"
-              description="Join our developer community to ask questions, trade tips & tricks,
-            and show off your projects."
-              href="https://www.convex.dev/community"
-            />
-          </div>
+    <main className="min-h-screen bg-[#0a0a0f] py-12 px-4">
+      <div className="max-w-4xl mx-auto">
+        {/* Header */}
+        <header className="text-center mb-12">
+          <h1 className="text-5xl font-bold text-[#e0e0e0] mb-4 tracking-wide">
+            👻 AI Ghost Story Generator
+          </h1>
+          <p className="text-[#a0a0a0] text-lg">
+            Enter a prompt and let the spirits weave a chilling tale...
+          </p>
+        </header>
+
+        {/* Story Prompt Form */}
+        <div className="mb-8">
+          <StoryPromptForm onSubmit={handleSubmit} isLoading={isGenerating} />
         </div>
-      </div>
-    </div>
-  );
-}
 
-function ResourceCard({
-  title,
-  description,
-  href,
-}: {
-  title: string;
-  description: string;
-  href: string;
-}) {
-  return (
-    <div className="flex flex-col gap-2 bg-slate-200 dark:bg-slate-800 p-4 rounded-md h-28 overflow-auto">
-      <a href={href} className="text-sm underline hover:no-underline">
-        {title}
-      </a>
-      <p className="text-xs">{description}</p>
-    </div>
+        {/* Error Display */}
+        {error && !isGenerating && (
+          <div className="w-full max-w-2xl mx-auto mb-8">
+            <div className="bg-[#1a1a2e] border-2 border-[#8b0000] rounded-lg p-6 shadow-[0_0_20px_rgba(139,0,0,0.4)]">
+              <div className="flex items-start gap-3">
+                <span className="text-2xl">⚠️</span>
+                <div className="flex-1">
+                  <h3 className="text-[#ff4444] font-semibold mb-2">
+                    Error Generating Story
+                  </h3>
+                  <p className="text-[#e0e0e0] mb-4">{error}</p>
+                  <button
+                    onClick={handleGenerateNew}
+                    className="px-6 py-2 bg-[#8b0000] text-[#e0e0e0] rounded-lg font-semibold
+                             hover:bg-[#a00000] hover:shadow-[0_0_15px_rgba(255,68,68,0.5)]
+                             transition-all duration-300"
+                  >
+                    Try Again
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Loading Animation */}
+        {isGenerating && <LoadingAnimation />}
+
+        {/* Story Display */}
+        <StoryDisplay
+          story={currentStory}
+          isLoading={isGenerating}
+          onGenerateNew={handleGenerateNew}
+        />
+      </div>
+    </main>
   );
 }
