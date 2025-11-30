@@ -50,7 +50,7 @@ export default function StoryPromptForm({
 
   return (
     <form onSubmit={handleSubmit} className="w-full max-w-2xl mx-auto">
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-3 sm:gap-4">
         <div className="relative group">
           <input
             type="text"
@@ -58,20 +58,23 @@ export default function StoryPromptForm({
             onChange={(e) => handleChange(e.target.value)}
             placeholder="Enter your horror prompt... (e.g., abandoned house, witch forest, lost child)"
             disabled={isLoading}
-            className="w-full px-6 py-4 bg-bg-secondary text-text-primary border-2 border-border rounded-lg 
-                     placeholder:text-text-secondary focus:outline-none focus:border-accent-primary 
+            className="w-full px-4 sm:px-6 py-3 sm:py-4 bg-bg-secondary text-text-primary border-2 border-border rounded-lg 
+                     placeholder:text-text-secondary placeholder:text-sm sm:placeholder:text-base
+                     focus:outline-none focus:border-accent-primary 
                      glow-red-hover transition-glow
-                     disabled:opacity-50 disabled:cursor-not-allowed text-lg
-                     hover:border-border-glow"
+                     disabled:opacity-50 disabled:cursor-not-allowed 
+                     text-base sm:text-lg
+                     hover:border-border-glow
+                     pr-16 sm:pr-20 touch-manipulation"
             maxLength={200}
           />
-          <div className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-text-muted transition-smooth">
+          <div className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 text-xs sm:text-sm text-text-muted transition-smooth pointer-events-none">
             {prompt.length}/200
           </div>
         </div>
 
         {errorMessage && (
-          <div className="text-accent-glow text-sm px-2 animate-fade-in font-medium">
+          <div className="text-accent-glow text-xs sm:text-sm px-2 animate-fade-in font-medium">
             ⚠️ {errorMessage}
           </div>
         )}
@@ -79,11 +82,12 @@ export default function StoryPromptForm({
         <button
           type="submit"
           disabled={isLoading}
-          className="px-8 py-4 bg-accent-primary text-text-primary rounded-lg font-semibold text-lg
+          className="w-full px-6 sm:px-8 py-3 sm:py-4 bg-accent-primary text-text-primary rounded-lg font-semibold text-base sm:text-lg
                    hover:bg-accent-hover glow-red-hover
                    transition-glow disabled:opacity-50 disabled:cursor-not-allowed
                    disabled:hover:bg-accent-primary disabled:hover:shadow-none
-                   relative overflow-hidden group"
+                   relative overflow-hidden group touch-manipulation
+                   min-h-[48px] sm:min-h-[56px]"
         >
           <span className="relative z-10">
             {isLoading ? "Summoning Story..." : "Generate Ghost Story"}

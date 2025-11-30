@@ -57,6 +57,47 @@ body {
   min-height: 100vh;
 }
 
+/* Responsive text sizing */
+@media (max-width: 640px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 1025px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+/* Touch-friendly interactions */
+@media (hover: none) and (pointer: coarse) {
+  /* Increase tap target sizes on touch devices */
+  button, a, input, textarea {
+    min-height: 44px;
+  }
+  
+  /* Remove hover effects on touch devices */
+  .glow-red-hover:hover,
+  .glow-purple-hover:hover {
+    box-shadow: inherit;
+  }
+}
+
+/* Prevent text size adjustment on mobile */
+html {
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
 /* Custom animations for horror theme */
 @keyframes fade-in {
   from {

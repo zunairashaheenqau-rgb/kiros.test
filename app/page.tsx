@@ -35,7 +35,7 @@ export default function Home() {
       else if ("error" in result) {
         setError(result.error);
       }
-    } catch (err: any) {
+    } catch (err) {
       // Handle unexpected errors
       console.error("Error generating story:", err);
       setError("An unexpected error occurred. Please try again.");
@@ -51,38 +51,38 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-bg-primary py-12 px-4 transition-smooth">
+    <main className="min-h-screen bg-bg-primary py-6 sm:py-8 md:py-12 px-4 sm:px-6 lg:px-8 transition-smooth">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <header className="text-center mb-12 animate-fade-in">
-          <h1 className="text-5xl md:text-6xl font-bold text-text-primary mb-4 tracking-wide font-[family-name:var(--font-creepster)] text-glow-red">
+        <header className="text-center mb-8 sm:mb-10 md:mb-12 animate-fade-in">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary mb-3 sm:mb-4 tracking-wide font-[family-name:var(--font-creepster)] text-glow-red leading-tight">
             👻 AI Ghost Story Generator
           </h1>
-          <p className="text-text-secondary text-lg md:text-xl">
+          <p className="text-text-secondary text-base sm:text-lg md:text-xl px-2">
             Enter a prompt and let the spirits weave a chilling tale...
           </p>
         </header>
 
         {/* Story Prompt Form */}
-        <div className="mb-8">
+        <div className="mb-6 sm:mb-8">
           <StoryPromptForm onSubmit={handleSubmit} isLoading={isGenerating} />
         </div>
 
         {/* Error Display */}
         {error && !isGenerating && (
-          <div className="w-full max-w-2xl mx-auto mb-8 animate-fade-in">
-            <div className="bg-bg-secondary border-2 border-accent-primary rounded-lg p-6 glow-red transition-smooth">
-              <div className="flex items-start gap-3">
-                <span className="text-2xl">⚠️</span>
-                <div className="flex-1">
-                  <h3 className="text-accent-glow font-semibold mb-2 text-lg">
+          <div className="w-full max-w-2xl mx-auto mb-6 sm:mb-8 animate-fade-in">
+            <div className="bg-bg-secondary border-2 border-accent-primary rounded-lg p-4 sm:p-6 glow-red transition-smooth">
+              <div className="flex items-start gap-2 sm:gap-3">
+                <span className="text-xl sm:text-2xl flex-shrink-0">⚠️</span>
+                <div className="flex-1 min-w-0">
+                  <h3 className="text-accent-glow font-semibold mb-2 text-base sm:text-lg">
                     Error Generating Story
                   </h3>
-                  <p className="text-text-primary mb-4">{error}</p>
+                  <p className="text-text-primary mb-3 sm:mb-4 text-sm sm:text-base break-words">{error}</p>
                   <button
                     onClick={handleGenerateNew}
-                    className="px-6 py-2 bg-accent-primary text-text-primary rounded-lg font-semibold
-                             hover:bg-accent-hover glow-red-hover transition-glow"
+                    className="w-full sm:w-auto px-6 py-2.5 sm:py-2 bg-accent-primary text-text-primary rounded-lg font-semibold text-sm sm:text-base
+                             hover:bg-accent-hover glow-red-hover transition-glow touch-manipulation"
                   >
                     Try Again
                   </button>

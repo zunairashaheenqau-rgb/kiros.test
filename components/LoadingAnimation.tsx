@@ -2,18 +2,18 @@
 
 export default function LoadingAnimation() {
   return (
-    <div className="w-full max-w-2xl mx-auto flex flex-col items-center justify-center py-16 animate-fade-in">
+    <div className="w-full max-w-2xl mx-auto flex flex-col items-center justify-center py-12 sm:py-16 animate-fade-in">
       <div className="relative">
         {/* Outer glow ring */}
         <div className="absolute inset-0 rounded-full bg-accent-primary opacity-20 blur-xl animate-pulse-slow"></div>
         
         {/* Inner glow ring */}
-        <div className="absolute inset-4 rounded-full bg-accent-ghost opacity-10 blur-lg animate-pulse-slow" style={{ animationDelay: '0.5s' }}></div>
+        <div className="absolute inset-2 sm:inset-4 rounded-full bg-accent-ghost opacity-10 blur-lg animate-pulse-slow" style={{ animationDelay: '0.5s' }}></div>
         
         {/* Ghost/Skull icon with floating animation */}
         <div className="relative animate-float">
           <svg
-            className="w-24 h-24 text-accent-ghost drop-shadow-[0_0_15px_rgba(147,112,219,0.8)] transition-smooth"
+            className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 text-accent-ghost drop-shadow-[0_0_15px_rgba(147,112,219,0.8)] transition-smooth"
             fill="currentColor"
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
@@ -25,16 +25,16 @@ export default function LoadingAnimation() {
       </div>
 
       {/* Loading text with animated ellipsis */}
-      <div className="mt-8 text-text-primary text-xl font-semibold text-glow-purple">
+      <div className="mt-6 sm:mt-8 text-text-primary text-lg sm:text-xl font-semibold text-glow-purple text-center px-4">
         <span>Conjuring your tale</span>
-        <span className="inline-block w-8 text-left animate-ellipsis">
+        <span className="inline-block w-6 sm:w-8 text-left animate-ellipsis">
           <span className="animate-ellipsis-dot-1">.</span>
           <span className="animate-ellipsis-dot-2">.</span>
           <span className="animate-ellipsis-dot-3">.</span>
         </span>
       </div>
 
-      <p className="mt-4 text-text-secondary text-sm animate-pulse-slow">
+      <p className="mt-3 sm:mt-4 text-text-secondary text-xs sm:text-sm animate-pulse-slow text-center px-4">
         The spirits are gathering...
       </p>
     </div>
