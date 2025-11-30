@@ -127,7 +127,16 @@
 
 
 
-  - [ ]* 8.1 Test story generation flow
+  - [x] 8.1 Test story generation flow
+
+
+
+
+
+
+
+
+
     - Write test for submit prompt → loading → story display flow
     - Test error handling scenarios
     - Verify multiple generations work correctly
