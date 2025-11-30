@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useMutation } from "convex/react";
+import { useAction } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import StoryPromptForm from "@/components/StoryPromptForm";
 import StoryDisplay from "@/components/StoryDisplay";
@@ -13,8 +13,8 @@ export default function Home() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Set up Convex mutation hook for story generation
-  const generateStory = useMutation(api.storyGeneration.generateGhostStory);
+  // Set up Convex action hook for story generation
+  const generateStory = useAction(api.storyGeneration.generateGhostStory);
 
   // Handle form submission
   const handleSubmit = async (prompt: string) => {
@@ -51,14 +51,14 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-[#0a0a0f] py-12 px-4">
+    <main className="min-h-screen bg-bg-primary py-12 px-4 transition-smooth">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <header className="text-center mb-12">
-          <h1 className="text-5xl font-bold text-[#e0e0e0] mb-4 tracking-wide">
+        <header className="text-center mb-12 animate-fade-in">
+          <h1 className="text-5xl md:text-6xl font-bold text-text-primary mb-4 tracking-wide font-[family-name:var(--font-creepster)] text-glow-red">
             👻 AI Ghost Story Generator
           </h1>
-          <p className="text-[#a0a0a0] text-lg">
+          <p className="text-text-secondary text-lg md:text-xl">
             Enter a prompt and let the spirits weave a chilling tale...
           </p>
         </header>
@@ -70,20 +70,19 @@ export default function Home() {
 
         {/* Error Display */}
         {error && !isGenerating && (
-          <div className="w-full max-w-2xl mx-auto mb-8">
-            <div className="bg-[#1a1a2e] border-2 border-[#8b0000] rounded-lg p-6 shadow-[0_0_20px_rgba(139,0,0,0.4)]">
+          <div className="w-full max-w-2xl mx-auto mb-8 animate-fade-in">
+            <div className="bg-bg-secondary border-2 border-accent-primary rounded-lg p-6 glow-red transition-smooth">
               <div className="flex items-start gap-3">
                 <span className="text-2xl">⚠️</span>
                 <div className="flex-1">
-                  <h3 className="text-[#ff4444] font-semibold mb-2">
+                  <h3 className="text-accent-glow font-semibold mb-2 text-lg">
                     Error Generating Story
                   </h3>
-                  <p className="text-[#e0e0e0] mb-4">{error}</p>
+                  <p className="text-text-primary mb-4">{error}</p>
                   <button
                     onClick={handleGenerateNew}
-                    className="px-6 py-2 bg-[#8b0000] text-[#e0e0e0] rounded-lg font-semibold
-                             hover:bg-[#a00000] hover:shadow-[0_0_15px_rgba(255,68,68,0.5)]
-                             transition-all duration-300"
+                    className="px-6 py-2 bg-accent-primary text-text-primary rounded-lg font-semibold
+                             hover:bg-accent-hover glow-red-hover transition-glow"
                   >
                     Try Again
                   </button>

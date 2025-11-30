@@ -1,28 +1,60 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Horror Theme Color Palette */
+  --bg-primary: #0a0a0f;
+  --bg-secondary: #1a1a2e;
+  --bg-tertiary: #0f0f1a;
+  --text-primary: #e0e0e0;
+  --text-secondary: #a0a0a0;
+  --text-muted: #6a6a7a;
+  --accent-primary: #8b0000;
+  --accent-hover: #a00000;
+  --accent-glow: #ff4444;
+  --accent-ghost: #9370db;
+  --accent-ghost-hover: #a080eb;
+  --border-color: #2a2a3e;
+  --border-glow: #3a3a4e;
+  --shadow-red: rgba(139, 0, 0, 0.3);
+  --shadow-red-strong: rgba(139, 0, 0, 0.5);
+  --shadow-purple: rgba(147, 112, 219, 0.3);
+  --shadow-purple-strong: rgba(147, 112, 219, 0.6);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  /* Custom Horror Color Palette */
+  --color-bg-primary: var(--bg-primary);
+  --color-bg-secondary: var(--bg-secondary);
+  --color-bg-tertiary: var(--bg-tertiary);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-accent-primary: var(--accent-primary);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-glow: var(--accent-glow);
+  --color-accent-ghost: var(--accent-ghost);
+  --color-accent-ghost-hover: var(--accent-ghost-hover);
+  --color-border: var(--border-color);
+  --color-border-glow: var(--border-glow);
+  
+  /* Fonts */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-horror: var(--font-creepster);
+  
+  /* Custom Animations */
+  --animate-fade-in: fade-in 0.5s ease-out;
+  --animate-float: float 3s ease-in-out infinite;
+  --animate-pulse-slow: pulse-slow 2s ease-in-out infinite;
+  --animate-glow-pulse: glow-pulse 2s ease-in-out infinite;
+  --animate-shimmer: shimmer 3s ease-in-out infinite;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
 }
 
 /* Custom animations for horror theme */
@@ -55,6 +87,24 @@ body {
   }
 }
 
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 10px var(--shadow-red);
+  }
+  50% {
+    box-shadow: 0 0 25px var(--shadow-red-strong);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
 @keyframes ellipsis-dot {
   0%, 20% {
     opacity: 0;
@@ -64,6 +114,7 @@ body {
   }
 }
 
+/* Animation utility classes */
 .animate-fade-in {
   animation: fade-in 0.5s ease-out;
 }
@@ -74,6 +125,21 @@ body {
 
 .animate-pulse-slow {
   animation: pulse-slow 2s ease-in-out infinite;
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  animation: shimmer 3s ease-in-out infinite;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 68, 68, 0.1),
+    transparent
+  );
+  background-size: 200% 100%;
 }
 
 .animate-ellipsis-dot-1 {
@@ -97,15 +163,51 @@ body {
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: #0a0a0f;
+  background: var(--bg-primary);
   border-radius: 4px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #8b0000;
+  background: var(--accent-primary);
   border-radius: 4px;
+  transition: background 0.3s ease;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #a00000;
+  background: var(--accent-hover);
+}
+
+/* Glow effect utilities */
+.glow-red {
+  box-shadow: 0 0 15px var(--shadow-red-strong);
+}
+
+.glow-red-hover:hover {
+  box-shadow: 0 0 20px var(--shadow-red-strong);
+}
+
+.glow-purple {
+  box-shadow: 0 0 15px var(--shadow-purple);
+}
+
+.glow-purple-hover:hover {
+  box-shadow: 0 0 20px var(--shadow-purple-strong);
+}
+
+/* Text glow effects */
+.text-glow-red {
+  text-shadow: 0 0 10px var(--accent-glow);
+}
+
+.text-glow-purple {
+  text-shadow: 0 0 10px var(--accent-ghost);
+}
+
+/* Smooth transitions */
+.transition-smooth {
+  transition: all 0.3s ease-in-out;
+}
+
+.transition-glow {
+  transition: box-shadow 0.3s ease-in-out, background-color 0.3s ease-in-out;
 }

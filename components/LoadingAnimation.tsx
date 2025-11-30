@@ -2,15 +2,18 @@
 
 export default function LoadingAnimation() {
   return (
-    <div className="w-full max-w-2xl mx-auto flex flex-col items-center justify-center py-16">
+    <div className="w-full max-w-2xl mx-auto flex flex-col items-center justify-center py-16 animate-fade-in">
       <div className="relative">
         {/* Outer glow ring */}
-        <div className="absolute inset-0 rounded-full bg-[#8b0000] opacity-20 blur-xl animate-pulse-slow"></div>
+        <div className="absolute inset-0 rounded-full bg-accent-primary opacity-20 blur-xl animate-pulse-slow"></div>
+        
+        {/* Inner glow ring */}
+        <div className="absolute inset-4 rounded-full bg-accent-ghost opacity-10 blur-lg animate-pulse-slow" style={{ animationDelay: '0.5s' }}></div>
         
         {/* Ghost/Skull icon with floating animation */}
         <div className="relative animate-float">
           <svg
-            className="w-24 h-24 text-[#9370db]"
+            className="w-24 h-24 text-accent-ghost drop-shadow-[0_0_15px_rgba(147,112,219,0.8)] transition-smooth"
             fill="currentColor"
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
@@ -22,7 +25,7 @@ export default function LoadingAnimation() {
       </div>
 
       {/* Loading text with animated ellipsis */}
-      <div className="mt-8 text-[#e0e0e0] text-xl font-semibold">
+      <div className="mt-8 text-text-primary text-xl font-semibold text-glow-purple">
         <span>Conjuring your tale</span>
         <span className="inline-block w-8 text-left animate-ellipsis">
           <span className="animate-ellipsis-dot-1">.</span>
@@ -31,7 +34,7 @@ export default function LoadingAnimation() {
         </span>
       </div>
 
-      <p className="mt-4 text-[#a0a0a0] text-sm">
+      <p className="mt-4 text-text-secondary text-sm animate-pulse-slow">
         The spirits are gathering...
       </p>
     </div>

@@ -51,39 +51,46 @@ export default function StoryPromptForm({
   return (
     <form onSubmit={handleSubmit} className="w-full max-w-2xl mx-auto">
       <div className="flex flex-col gap-4">
-        <div className="relative">
+        <div className="relative group">
           <input
             type="text"
             value={prompt}
             onChange={(e) => handleChange(e.target.value)}
             placeholder="Enter your horror prompt... (e.g., abandoned house, witch forest, lost child)"
             disabled={isLoading}
-            className="w-full px-6 py-4 bg-[#1a1a2e] text-[#e0e0e0] border-2 border-[#2a2a3e] rounded-lg 
-                     placeholder:text-[#a0a0a0] focus:outline-none focus:border-[#8b0000] 
-                     focus:shadow-[0_0_15px_rgba(139,0,0,0.5)] transition-all duration-300
-                     disabled:opacity-50 disabled:cursor-not-allowed text-lg"
+            className="w-full px-6 py-4 bg-bg-secondary text-text-primary border-2 border-border rounded-lg 
+                     placeholder:text-text-secondary focus:outline-none focus:border-accent-primary 
+                     glow-red-hover transition-glow
+                     disabled:opacity-50 disabled:cursor-not-allowed text-lg
+                     hover:border-border-glow"
             maxLength={200}
           />
-          <div className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-[#a0a0a0]">
+          <div className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-text-muted transition-smooth">
             {prompt.length}/200
           </div>
         </div>
 
         {errorMessage && (
-          <div className="text-[#ff4444] text-sm px-2 animate-fade-in">
-            {errorMessage}
+          <div className="text-accent-glow text-sm px-2 animate-fade-in font-medium">
+            ⚠️ {errorMessage}
           </div>
         )}
 
         <button
           type="submit"
           disabled={isLoading}
-          className="px-8 py-4 bg-[#8b0000] text-[#e0e0e0] rounded-lg font-semibold text-lg
-                   hover:bg-[#a00000] hover:shadow-[0_0_20px_rgba(255,68,68,0.6)]
-                   transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed
-                   disabled:hover:bg-[#8b0000] disabled:hover:shadow-none"
+          className="px-8 py-4 bg-accent-primary text-text-primary rounded-lg font-semibold text-lg
+                   hover:bg-accent-hover glow-red-hover
+                   transition-glow disabled:opacity-50 disabled:cursor-not-allowed
+                   disabled:hover:bg-accent-primary disabled:hover:shadow-none
+                   relative overflow-hidden group"
         >
-          {isLoading ? "Summoning Story..." : "Generate Ghost Story"}
+          <span className="relative z-10">
+            {isLoading ? "Summoning Story..." : "Generate Ghost Story"}
+          </span>
+          {!isLoading && (
+            <span className="absolute inset-0 animate-shimmer opacity-0 group-hover:opacity-100 transition-opacity"></span>
+          )}
         </button>
       </div>
     </form>

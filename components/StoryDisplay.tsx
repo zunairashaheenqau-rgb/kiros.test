@@ -17,9 +17,9 @@ export default function StoryDisplay({
 
   return (
     <div className="w-full max-w-2xl mx-auto animate-fade-in">
-      <div className="bg-[#1a1a2e] border-2 border-[#2a2a3e] rounded-lg p-8 shadow-[0_0_30px_rgba(139,0,0,0.3)]">
-        <div className="max-h-[600px] overflow-y-auto custom-scrollbar">
-          <p className="text-[#e0e0e0] text-lg leading-relaxed whitespace-pre-wrap">
+      <div className="bg-bg-secondary border-2 border-border rounded-lg p-8 glow-red transition-smooth hover:border-border-glow">
+        <div className="max-h-[600px] overflow-y-auto custom-scrollbar pr-2">
+          <p className="text-text-primary text-lg leading-relaxed whitespace-pre-wrap font-[family-name:var(--font-geist-sans)]">
             {story}
           </p>
         </div>
@@ -28,11 +28,12 @@ export default function StoryDisplay({
       <div className="mt-6 flex justify-center">
         <button
           onClick={onGenerateNew}
-          className="px-8 py-3 bg-[#9370db] text-[#e0e0e0] rounded-lg font-semibold
-                   hover:bg-[#a080eb] hover:shadow-[0_0_20px_rgba(147,112,219,0.6)]
-                   transition-all duration-300"
+          className="px-8 py-3 bg-accent-ghost text-text-primary rounded-lg font-semibold
+                   hover:bg-accent-ghost-hover glow-purple-hover
+                   transition-glow relative overflow-hidden group"
         >
-          Generate New Story
+          <span className="relative z-10">Generate New Story</span>
+          <span className="absolute inset-0 animate-shimmer opacity-0 group-hover:opacity-100 transition-opacity bg-gradient-to-r from-transparent via-accent-ghost-hover to-transparent"></span>
         </button>
       </div>
     </div>
