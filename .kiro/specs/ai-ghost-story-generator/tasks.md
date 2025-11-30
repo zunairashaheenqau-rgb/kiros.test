@@ -121,7 +121,12 @@
   - Test multiple story generations in sequence
   - _Requirements: 4.4, 5.5_
 
-- [ ]* 8. Write integration tests
+- [x] 8. Write integration tests
+
+
+
+
+
   - [ ]* 8.1 Test story generation flow
     - Write test for submit prompt → loading → story display flow
     - Test error handling scenarios
