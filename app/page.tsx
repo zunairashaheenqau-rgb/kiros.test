@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { useAction } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import StoryPromptForm from "@/components/StoryPromptForm";
@@ -32,7 +32,7 @@ export default function Home() {
   }, []);
 
   // Handle form submission
-  const handleSubmit = async (prompt: string) => {
+  const handleSubmit = useCallback(async (prompt: string) => {
     // Clear previous state
     setError(null);
     setCurrentStory(null);
@@ -70,7 +70,7 @@ export default function Home() {
       else if ("error" in result) {
         setError(result.error);
       }
-    } catch (err: any) {
+    } catch (err) {
       // Clear timeout warning timer on error
       if (timeoutWarningTimer.current) {
         clearTimeout(timeoutWarningTimer.current);
@@ -80,10 +80,12 @@ export default function Home() {
       // Handle unexpected errors
       console.error("Error generating story:", err);
       
+      const errorMessage = err instanceof Error ? err.message : String(err);
+      
       // Check for network errors
-      if (err.message?.includes("fetch") || err.message?.includes("network")) {
+      if (errorMessage.includes("fetch") || errorMessage.includes("network")) {
         setError("Network error. Please check your connection and try again.");
-      } else if (err.message?.includes("timeout")) {
+      } else if (errorMessage.includes("timeout")) {
         setError("Request timed out. The story generation took too long. Please try again.");
       } else {
         setError("An unexpected error occurred. Please try again.");
@@ -91,20 +93,20 @@ export default function Home() {
     } finally {
       setIsGenerating(false);
     }
-  };
+  }, [generateStory]);
 
   // Handle retry with the last prompt
-  const handleRetry = () => {
+  const handleRetry = useCallback(() => {
     if (lastPrompt) {
       handleSubmit(lastPrompt);
     }
-  };
+  }, [lastPrompt, handleSubmit]);
 
   // Handle generating a new story
-  const handleGenerateNew = () => {
+  const handleGenerateNew = useCallback(() => {
     setCurrentStory(null);
     setError(null);
-  };
+  }, []);
 
   return (
     <main className="min-h-screen bg-bg-primary py-6 sm:py-8 md:py-12 px-4 sm:px-6 lg:px-8 transition-smooth">

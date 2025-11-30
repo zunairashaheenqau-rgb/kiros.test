@@ -16,7 +16,7 @@ export const generateGhostStory = action({
   args: { 
     prompt: v.string() 
   },
-  handler: async (ctx, args): Promise<{ story: string } | ErrorResponse> => {
+  handler: async (_ctx, args): Promise<{ story: string } | ErrorResponse> => {
     // Validate prompt length (3-200 characters as per requirements)
     if (args.prompt.length < 3) {
       return {

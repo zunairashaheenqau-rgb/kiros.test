@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, useCallback } from "react";
 
 interface StoryPromptFormProps {
   onSubmit: (prompt: string) => void;
@@ -14,7 +14,7 @@ export default function StoryPromptForm({
   const [prompt, setPrompt] = useState("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const validatePrompt = (value: string): string | null => {
+  const validatePrompt = useCallback((value: string): string | null => {
     if (value.trim().length === 0) {
       return "Please enter a prompt to generate your ghost story";
     }
@@ -25,9 +25,9 @@ export default function StoryPromptForm({
       return "Prompt must be less than 200 characters";
     }
     return null;
-  };
+  }, []);
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = useCallback((e: FormEvent) => {
     e.preventDefault();
     
     const error = validatePrompt(prompt);
@@ -38,15 +38,15 @@ export default function StoryPromptForm({
 
     setErrorMessage(null);
     onSubmit(prompt);
-  };
+  }, [prompt, validatePrompt, onSubmit]);
 
-  const handleChange = (value: string) => {
+  const handleChange = useCallback((value: string) => {
     setPrompt(value);
     // Clear error message when user starts typing
     if (errorMessage) {
       setErrorMessage(null);
     }
-  };
+  }, [errorMessage]);
 
   return (
     <form onSubmit={handleSubmit} className="w-full max-w-2xl mx-auto">
