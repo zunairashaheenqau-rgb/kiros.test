@@ -24,3 +24,88 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Custom animations for horror theme */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+@keyframes ellipsis-dot {
+  0%, 20% {
+    opacity: 0;
+  }
+  40%, 100% {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 2s ease-in-out infinite;
+}
+
+.animate-ellipsis-dot-1 {
+  animation: ellipsis-dot 1.5s infinite;
+  animation-delay: 0s;
+}
+
+.animate-ellipsis-dot-2 {
+  animation: ellipsis-dot 1.5s infinite;
+  animation-delay: 0.2s;
+}
+
+.animate-ellipsis-dot-3 {
+  animation: ellipsis-dot 1.5s infinite;
+  animation-delay: 0.4s;
+}
+
+/* Custom scrollbar for story display */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #0a0a0f;
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #8b0000;
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #a00000;
+}

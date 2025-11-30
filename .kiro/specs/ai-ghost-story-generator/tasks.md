@@ -17,22 +17,33 @@
   - Implement error handling for API calls and timeouts
   - _Requirements: 2.1, 2.2, 2.5_
 
-- [ ] 2. Create core UI components with horror theme
-  - [ ] 2.1 Implement StoryPromptForm component with validation
+- [x] 2. Create core UI components with horror theme
+
+
+
+
+
+
+  - [x] 2.1 Implement StoryPromptForm component with validation
+
     - Create form component with text input and submit button
     - Add client-side validation for 3-200 character limit
     - Implement disabled state during story generation
     - Display validation error messages
     - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5_
   
-  - [ ] 2.2 Implement StoryDisplay component
+
+  - [x] 2.2 Implement StoryDisplay component
+
     - Create component to render generated story text
     - Add fade-in animation when story appears
     - Implement "Generate New Story" button
     - Add scroll container for long stories
     - _Requirements: 2.3, 4.1, 4.2, 4.3_
   
-  - [ ] 2.3 Create LoadingAnimation component
+  - [x] 2.3 Create LoadingAnimation component
+
+
     - Design spooky loading indicator with animation
     - Add pulsing or floating effects
     - Display loading text with animated ellipsis
