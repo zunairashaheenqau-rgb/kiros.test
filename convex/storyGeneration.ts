@@ -98,7 +98,7 @@ Do not include a title - just the story text.`;
       // Handle timeout
       if (error.message === "Request timeout") {
         return {
-          error: "Story generation is taking too long. Please try again.",
+          error: "Story generation is taking too long. Please try again with a simpler prompt.",
           code: "TIMEOUT",
           retryable: true,
         };
@@ -108,6 +108,43 @@ Do not include a title - just the story text.`;
       if (error.status === 429) {
         return {
           error: "Too many requests. Please wait a moment and try again.",
+          code: "API_ERROR",
+          retryable: true,
+        };
+      }
+
+      // Handle authentication errors
+      if (error.status === 401 || error.status === 403) {
+        console.error("OpenAI API authentication error");
+        return {
+          error: "Story generation is temporarily unavailable. Please try again later.",
+          code: "API_ERROR",
+          retryable: true,
+        };
+      }
+
+      // Handle bad request errors
+      if (error.status === 400) {
+        return {
+          error: "Invalid prompt. Please try a different prompt.",
+          code: "VALIDATION_ERROR",
+          retryable: false,
+        };
+      }
+
+      // Handle server errors
+      if (error.status >= 500) {
+        return {
+          error: "OpenAI service is temporarily unavailable. Please try again in a few moments.",
+          code: "API_ERROR",
+          retryable: true,
+        };
+      }
+
+      // Handle network errors
+      if (error.code === "ENOTFOUND" || error.code === "ECONNREFUSED" || error.message?.includes("fetch")) {
+        return {
+          error: "Network error. Please check your connection and try again.",
           code: "API_ERROR",
           retryable: true,
         };
