@@ -1,0 +1,25 @@
+{
+  "enabled": true,
+  "name": "Auto-Update Documentation",
+  "description": "Monitors TypeScript source files, React components, Convex functions, and configuration files for changes. When changes are detected, prompts the agent to update the README.md and convex/README.md documentation to reflect the changes.",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "*.ts",
+      "*.tsx",
+      "*.mjs",
+      "package.json",
+      "tsconfig.json",
+      "next.config.ts",
+      "convex/schema.ts",
+      "convex/myFunctions.ts",
+      "convex/storyGeneration.ts",
+      "convex/auth.config.ts"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Source files have been modified. Please review the changes and update the documentation accordingly. Update README.md with any new features, API changes, or architectural modifications. If the changes are related to Convex backend functions, also update convex/README.md. Ensure the documentation accurately reflects the current codebase state, including any new components, functions, configuration changes, or user-facing features."
+  }
+}
